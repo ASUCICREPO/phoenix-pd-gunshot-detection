@@ -55,7 +55,7 @@ DESIGNATED_ALERT_RECIPIENTS = ["8163449956", "9176202840", "7857642331"]
 SCHEDULED_LOG_FILE_TRUNCATION_TIME = "00:00"
 sound_data = np.zeros(0, dtype = "float32")
 noise_sample_captured = False
-gunshot_sound_counter = 1
+gunshot_sound_counter = 0
 noise_sample = []
 audio_analysis_queue = Queue()
 sms_alert_queue = Queue()
@@ -492,7 +492,7 @@ while True:
             # sms_alert_queue.put(time_of_sample_occurrence)
 
             # Makes a WAV file of the gunshot sample
-            create_gunshot_wav_file(modified_microphone_data, gunshot_sound_counter, time_of_sample_occurrence)
+            # create_gunshot_wav_file(modified_microphone_data, gunshot_sound_counter, time_of_sample_occurrence)
 
             # Increments the counter for gunshot sound file names
             gunshot_sound_counter += 1
