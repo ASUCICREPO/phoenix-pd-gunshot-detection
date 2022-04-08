@@ -2,7 +2,7 @@ import os
 from time import sleep
 from playsound import playsound
     
-d = "gunshot_sounds"
+d = "test_sounds"
 
 while True:
     for path in os.listdir(d):

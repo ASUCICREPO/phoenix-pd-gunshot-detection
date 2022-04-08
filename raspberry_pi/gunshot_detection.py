@@ -14,6 +14,10 @@ import numpy as np
 import tensorflow as tf
 import six
 import tensorflow.keras as keras
+import os
+import boto3
+import requests
+from botocore.exceptions import ClientError
 from threading import Thread
 from datetime import timedelta as td
 from queue import Queue
@@ -38,7 +42,7 @@ logger.addHandler(ch)
 AUDIO_FORMAT = pyaudio.paFloat32
 AUDIO_RATE = 44100
 NUMBER_OF_AUDIO_CHANNELS = 1
-AUDIO_DEVICE_INDEX = 0
+AUDIO_DEVICE_INDEX = 1
 NUMBER_OF_FRAMES_PER_BUFFER = 4410
 SAMPLE_DURATION = 2
 AUDIO_VOLUME_THRESHOLD = 0.01
@@ -53,12 +57,19 @@ ALERT_MESSAGE = "ALERT: A Gunshot Was Detected on "
 NETWORK_COVERAGE_TIMEOUT = 3600
 DESIGNATED_ALERT_RECIPIENTS = ["8163449956", "9176202840", "7857642331"]
 SCHEDULED_LOG_FILE_TRUNCATION_TIME = "00:00"
+S3_BUCKET_NAME = "phoenix-pd-gunshot-sounds"
+FRONTEND_URL = "https://"
+
 sound_data = np.zeros(0, dtype = "float32")
 noise_sample_captured = False
 gunshot_sound_counter = 0
 noise_sample = []
 audio_analysis_queue = Queue()
 sms_alert_queue = Queue()
+
+# s3 clients
+s3_resource = boto3.resource('s3')
+s3_client = boto3.client('s3')
 
 
 # Loading in Augmented Labels #
@@ -264,13 +275,28 @@ def convert_audio_to_spectrogram(data):
 # WAV File Composition Function #
 
 # Saves a two-second gunshot sample as a WAV file
-def create_gunshot_wav_file(microphone_data, index, timestamp):
+def send_gunshot_wav_file_to_s3(microphone_data, index, timestamp):
     # librosa.output.write_wav("./Gunshot_Detection_System_Recordings/Sample-"
     #                         + str(index) + " ("
     #                         + str(timestamp) + ").wav", microphone_data, 22050)
-    sf.write("./Gunshot_Detection_System_Recordings/Sample-"
-                            + str(index) + " ("
-                            + str(timestamp) + ").wav", microphone_data, 22050)
+    file_name = "./Gunshot_Detection_System_Recordings/Sample-" + str(index) + " ("+ str(timestamp) + ").wav"
+    object_name = "Sample-" + str(index) + " ("+ str(timestamp) + ").wav"
+    sf.write(file_name, microphone_data, 22050)
+    try:
+        response = s3_client.upload_file(file_name, S3_BUCKET_NAME, object_name)
+    except ClientError as e:
+        logger.error(e)
+    
+    logger.info("File upload successful")
+    os.remove(file_name)
+    
+
+def send_gunshot_notification():
+    ploads = {'notification': 'Gunshot Detected!!'}
+    try:
+        requests.post(FRONTEND_URL, params=ploads)
+    except:
+        logger.error("Unable to send Gunshot notification")
 
     
 # Log File Truncation Function #
@@ -490,14 +516,16 @@ while True:
 
             # Sends out the time a given sample was heard
             # sms_alert_queue.put(time_of_sample_occurrence)
-
-            # Makes a WAV file of the gunshot sample
-            # create_gunshot_wav_file(modified_microphone_data, gunshot_sound_counter, time_of_sample_occurrence)
-
+            
             # Increments the counter for gunshot sound file names
             gunshot_sound_counter += 1
+            print("Gunshot detected!!: " + str(gunshot_sound_counter))
             
-            print(f"Gunshot detected!!: {gunshot_sound_counter}")
+            # Makes a WAV file of the gunshot sample
+            send_gunshot_wav_file_to_s3(modified_microphone_data, gunshot_sound_counter, time_of_sample_occurrence)
+            
+            # Send Gunshot notification
+            send_gunshot_notification()
             
             
     
