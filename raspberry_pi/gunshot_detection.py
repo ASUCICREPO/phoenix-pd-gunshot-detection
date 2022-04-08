@@ -29,7 +29,7 @@ from tensorflow.keras import backend as K
 # Configuring the Logger #
 
 logger = logging.getLogger('debugger')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 ch = logging.FileHandler('output.log')
 ch.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -42,7 +42,7 @@ logger.addHandler(ch)
 AUDIO_FORMAT = pyaudio.paFloat32
 AUDIO_RATE = 44100
 NUMBER_OF_AUDIO_CHANNELS = 1
-AUDIO_DEVICE_INDEX = 1
+AUDIO_DEVICE_INDEX = None
 NUMBER_OF_FRAMES_PER_BUFFER = 4410
 SAMPLE_DURATION = 2
 AUDIO_VOLUME_THRESHOLD = 0.01
