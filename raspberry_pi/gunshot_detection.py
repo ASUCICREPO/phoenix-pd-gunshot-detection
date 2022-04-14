@@ -17,12 +17,15 @@ import tensorflow.keras as keras
 import os
 import boto3
 import requests
+import json
+import urllib.parse
 from botocore.exceptions import ClientError
 from threading import Thread
 from datetime import timedelta as td
 from queue import Queue
 from sklearn.preprocessing import LabelBinarizer
 from tensorflow.keras import backend as K
+
 # from gsmmodem.modem import GsmModem
 
 
@@ -35,7 +38,6 @@ ch.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
 logger.addHandler(ch)
-
 
 # Variable Initializations #
 
@@ -60,7 +62,7 @@ SCHEDULED_LOG_FILE_TRUNCATION_TIME = "00:00"
 S3_BUCKET_NAME = "phoenix-pd-gunshot-sounds"
 FRONTEND_URL = "https://"
 
-sound_data = np.zeros(0, dtype = "float32")
+sound_data = np.zeros(0, dtype="float32")
 noise_sample_captured = False
 gunshot_sound_counter = 0
 noise_sample = []
@@ -71,11 +73,9 @@ sms_alert_queue = Queue()
 s3_resource = boto3.resource('s3')
 s3_client = boto3.client('s3')
 
-
 # Loading in Augmented Labels #
 
 labels = np.load("./Datasets/augmented_labels.npy")
-
 
 # Binarizing Labels #
 
@@ -279,28 +279,51 @@ def send_gunshot_wav_file_to_s3(microphone_data, index, timestamp):
     # librosa.output.write_wav("./Gunshot_Detection_System_Recordings/Sample-"
     #                         + str(index) + " ("
     #                         + str(timestamp) + ").wav", microphone_data, 22050)
-    file_name = "./Gunshot_Detection_System_Recordings/Sample-" + str(index) + " ("+ str(timestamp) + ").wav"
-    object_name = "Sample-" + str(index) + " ("+ str(timestamp) + ").wav"
+    file_name = "./Gunshot_Detection_System_Recordings/Sample-" + str(index) + " (" + str(timestamp) + ").wav"
+    object_name = "Sample-" + str(index) + " (" + str(timestamp) + ").wav"
     sf.write(file_name, microphone_data, 22050)
     try:
         response = s3_client.upload_file(file_name, S3_BUCKET_NAME, object_name)
     except ClientError as e:
         logger.error(e)
-    
+
     logger.info("File upload successful")
     os.remove(file_name)
-    
+    return object_name
 
-def send_gunshot_notification():
-    ploads = {'notification': 'Gunshot Detected!!'}
+
+def send_gunshot_notification(object_name):
     try:
-        requests.post(FRONTEND_URL, params=ploads)
+        payload = {
+            "notification": "Gunshot Detected!",
+            "device_id": getserial(),
+            "s3_url": f'''https://{S3_BUCKET_NAME}.s3.amazonaws.com/{urllib.parse.quote_plus(object_name, safe="~()*!.'")}''',
+        }
+
+        print("Payload data:\n" + json.dumps(payload))
+
+        requests.post(FRONTEND_URL, params=payload)
     except:
         logger.error("Unable to send Gunshot notification")
 
-    
+
+def getserial():
+    # Extract serial from cpuinfo file
+    cpuserial = "0000000000000000"
+    try:
+        f = open('/proc/cpuinfo', 'r')
+        for line in f:
+            if line[0:6] == 'Serial':
+                cpuserial = line[10:26]
+        f.close()
+    except:
+        cpuserial = "ERROR000000000"
+
+    return cpuserial
+
+
 # Log File Truncation Function #
-        
+
 def clear_log_file():
     with open("output.log", 'w'):
         pass
@@ -315,18 +338,18 @@ def auc(y_true, y_pred):
 
 
 # Loading the Models #
-    
+
 # Loads 44100 x 1 Keras model from H5 file
-interpreter_1 = tf.lite.Interpreter(model_path = "./Models/1D.tflite")
+interpreter_1 = tf.lite.Interpreter(model_path="./Models/1D.tflite")
 interpreter_1.allocate_tensors()
-    
+
 # Sets the input shape for the 44100 x 1 model
 input_details_1 = interpreter_1.get_input_details()
 output_details_1 = interpreter_1.get_output_details()
 input_shape_1 = input_details_1[0]['shape']
 
 # Loads 128 x 64 Keras model from H5 file
-interpreter_2 = tf.lite.Interpreter(model_path = "./Models/128_x_64_2D.tflite")
+interpreter_2 = tf.lite.Interpreter(model_path="./Models/128_x_64_2D.tflite")
 interpreter_2.allocate_tensors()
 
 # Gets the input shape from the 128 x 64 Keras model
@@ -335,7 +358,7 @@ output_details_2 = interpreter_2.get_output_details()
 input_shape_2 = input_details_2[0]['shape']
 
 # Loads 128 x 128 Keras model from H5 file
-interpreter_3 = tf.lite.Interpreter(model_path = "./Models/128_x_128_2D.tflite")
+interpreter_3 = tf.lite.Interpreter(model_path="./Models/128_x_128_2D.tflite")
 interpreter_3.allocate_tensors()
 
 # Gets the input shape from the 128 x 128 Keras model
@@ -359,24 +382,24 @@ input_shape_3 = input_details_3[0]['shape']
 
 # The SMS alert thread will run indefinitely
 # def send_sms_alert():
-    
+
 #     if SMS_ALERTS_ENABLED:
-        
+
 #         # Configuring the Modem Connection
 #         modem_port = '/dev/ttyUSB0'
 #         modem_baudrate = 115200
 #         modem_sim_pin = None  # SIM card PIN (if any)
-    
+
 #         # Establishing a Connection to the SMS Modem
 #         logger.debug("Initializing connection to modem...")
 #         modem = GsmModem(modem_port, modem_baudrate)
 #         modem.smsTextMode = False
-        
+
 #         if modem_sim_pin:
 #             modem.connect(modem_sim_pin)
 #         else:
 #             modem.connect()
-    
+
 #         # Continuously dispatches SMS alerts to a list of designated recipients
 #         while True:
 #             sms_alert_status = sms_alert_queue.get()
@@ -393,7 +416,7 @@ input_shape_3 = input_details_3[0]['shape']
 #                     pass
 #                 finally:
 #                     logger.debug(" ** Finished evaluating an audio sample with the model ** ")
-    
+
 #     else:
 #         while True:
 #             sms_alert_status = sms_alert_queue.get()
@@ -435,7 +458,6 @@ stream = pa.open(format=AUDIO_FORMAT,
 stream.start_stream()
 logger.debug("--- Listening to Audio Stream ---")
 
-
 ### Audio Analysis Thread
 
 # Starts the scheduler for clearing the primary log file
@@ -445,30 +467,31 @@ schedule.every().day.at(SCHEDULED_LOG_FILE_TRUNCATION_TIME).do(clear_log_file)
 while True:
     # Refreshes the scheduler
     schedule.run_pending()
-    
+
     # Gets a sample and its timestamp from the audio analysis queue
-    microphone_data = np.array(audio_analysis_queue.get(), dtype = "float32")
+    microphone_data = np.array(audio_analysis_queue.get(), dtype="float32")
     time_of_sample_occurrence = audio_analysis_queue.get()
-    
+
     # Cleans up the global NumPy audio data source
-    sound_data = np.zeros(0, dtype = "float32")
-        
+    sound_data = np.zeros(0, dtype="float32")
+
     # Finds the current sample's maximum frequency value
     maximum_frequency_value = np.max(microphone_data)
-        
+
     # Determines whether a given sample potentially contains a gunshot
     if maximum_frequency_value >= AUDIO_VOLUME_THRESHOLD:
-        
+
         # Displays the current sample's maximum frequency value
         logger.debug("The maximum frequency value of a given sample before processing: " + str(maximum_frequency_value))
-        
+
         # Post-processes the microphone data
-        modified_microphone_data = librosa.resample(y = microphone_data, orig_sr = AUDIO_RATE, target_sr = 22050)
+        modified_microphone_data = librosa.resample(y=microphone_data, orig_sr=AUDIO_RATE, target_sr=22050)
         if NOISE_REDUCTION_ENABLED and noise_sample_captured:
-                # Acts as a substitute for normalization
-                modified_microphone_data = remove_noise(audio_clip = modified_microphone_data, noise_clip = noise_sample)
-                number_of_missing_hertz = 44100 - len(modified_microphone_data)
-                modified_microphone_data = np.array(modified_microphone_data.tolist() + [0 for i in range(number_of_missing_hertz)], dtype = "float32")
+            # Acts as a substitute for normalization
+            modified_microphone_data = remove_noise(audio_clip=modified_microphone_data, noise_clip=noise_sample)
+            number_of_missing_hertz = 44100 - len(modified_microphone_data)
+            modified_microphone_data = np.array(
+                modified_microphone_data.tolist() + [0 for i in range(number_of_missing_hertz)], dtype="float32")
         modified_microphone_data = modified_microphone_data[:44100]
 
         # Passes an audio sample of an appropriate format into the model for inference
@@ -476,33 +499,38 @@ while True:
         processed_data_1 = processed_data_1.reshape(input_shape_1)
 
         HOP_LENGTH = 345 * 2
-        processed_data_2 = convert_audio_to_spectrogram(data = modified_microphone_data)
+        processed_data_2 = convert_audio_to_spectrogram(data=modified_microphone_data)
         processed_data_2 = processed_data_2.reshape(input_shape_2)
-            
+
         HOP_LENGTH = 345
-        processed_data_3 = convert_audio_to_spectrogram(data = modified_microphone_data)
+        processed_data_3 = convert_audio_to_spectrogram(data=modified_microphone_data)
         processed_data_3 = processed_data_3.reshape(input_shape_3)
 
         # Performs inference with the instantiated TensorFlow Lite models
         interpreter_1.set_tensor(input_details_1[0]['index'], processed_data_1)
         interpreter_1.invoke()
         probabilities_1 = interpreter_1.get_tensor(output_details_1[0]['index'])
-        
+
         interpreter_2.set_tensor(input_details_2[0]['index'], processed_data_2)
         interpreter_2.invoke()
         probabilities_2 = interpreter_2.get_tensor(output_details_2[0]['index'])
-        
+
         interpreter_3.set_tensor(input_details_3[0]['index'], processed_data_3)
         interpreter_3.invoke()
         probabilities_3 = interpreter_3.get_tensor(output_details_3[0]['index'])
-        
+
         logger.debug("The 44100 x 1 model-predicted probability values: " + str(probabilities_1[0]))
         logger.debug("The 128 x 64 model-predicted probability values: " + str(probabilities_2[0]))
         logger.debug("The 128 x 128 model-predicted probability values: " + str(probabilities_3[0]))
-        logger.debug("The 44100 x 1 model-predicted sample class: " + label_binarizer.inverse_transform(probabilities_1[:, 0])[0])
-        logger.debug("The 128 x 64 model-predicted sample class: " + label_binarizer.inverse_transform(probabilities_2[:, 0])[0])
-        logger.debug("The 128 x 128 model-predicted sample class: " + label_binarizer.inverse_transform(probabilities_3[:, 0])[0])
-        
+        logger.debug(
+            "The 44100 x 1 model-predicted sample class: " + label_binarizer.inverse_transform(probabilities_1[:, 0])[
+                0])
+        logger.debug(
+            "The 128 x 64 model-predicted sample class: " + label_binarizer.inverse_transform(probabilities_2[:, 0])[0])
+        logger.debug(
+            "The 128 x 128 model-predicted sample class: " + label_binarizer.inverse_transform(probabilities_3[:, 0])[
+                0])
+
         # Records which models, if any, identified a gunshot
         model_1_activated = probabilities_1[0][1] >= MODEL_CONFIDENCE_THRESHOLD
         model_2_activated = probabilities_2[0][1] >= MODEL_CONFIDENCE_THRESHOLD
@@ -510,27 +538,25 @@ while True:
 
         # Majority Rules: Determines if a gunshot sound was detected by a majority of the models
         if model_1_activated and model_2_activated or model_2_activated and model_3_activated or model_1_activated and model_3_activated:
-                
             # Sends out an SMS alert
             # sms_alert_queue.put("Gunshot Detected")
 
             # Sends out the time a given sample was heard
             # sms_alert_queue.put(time_of_sample_occurrence)
-            
+
             # Increments the counter for gunshot sound file names
             gunshot_sound_counter += 1
             print("Gunshot detected!!: " + str(gunshot_sound_counter))
-            
+
             # Makes a WAV file of the gunshot sample
-            send_gunshot_wav_file_to_s3(modified_microphone_data, gunshot_sound_counter, time_of_sample_occurrence)
-            
+            object_name = send_gunshot_wav_file_to_s3(modified_microphone_data, gunshot_sound_counter,
+                                                      time_of_sample_occurrence)
+
             # Send Gunshot notification
-            send_gunshot_notification()
-            
-            
-    
+            send_gunshot_notification(object_name)
+
     # Allows us to capture two seconds of background noise from the microphone for noise reduction
     elif NOISE_REDUCTION_ENABLED and not noise_sample_captured:
-        noise_sample = librosa.resample(y = microphone_data, orig_sr = AUDIO_RATE, target_sr = 22050)
+        noise_sample = librosa.resample(y=microphone_data, orig_sr=AUDIO_RATE, target_sr=22050)
         noise_sample = noise_sample[:44100]
         noise_sample_captured = True
