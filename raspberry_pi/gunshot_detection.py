@@ -17,7 +17,6 @@ import tensorflow.keras as keras
 import os
 import boto3
 import requests
-import json
 import urllib.parse
 from botocore.exceptions import ClientError
 from threading import Thread
@@ -60,7 +59,7 @@ NETWORK_COVERAGE_TIMEOUT = 3600
 DESIGNATED_ALERT_RECIPIENTS = ["8163449956", "9176202840", "7857642331"]
 SCHEDULED_LOG_FILE_TRUNCATION_TIME = "00:00"
 S3_BUCKET_NAME = "phoenix-pd-gunshot-sounds"
-FRONTEND_URL = "https://"
+FRONTEND_URL = "https://asucic-gunshotdetection.com/api/incidents/upload"
 
 sound_data = np.zeros(0, dtype="float32")
 noise_sample_captured = False
@@ -276,9 +275,8 @@ def convert_audio_to_spectrogram(data):
 
 # Saves a two-second gunshot sample as a WAV file
 def send_gunshot_wav_file_to_s3(microphone_data, index, timestamp):
-    # librosa.output.write_wav("./Gunshot_Detection_System_Recordings/Sample-"
-    #                         + str(index) + " ("
-    #                         + str(timestamp) + ").wav", microphone_data, 22050)
+    logger.info("Sending gunshot .wav file to S3")
+
     file_name = "./Gunshot_Detection_System_Recordings/Sample-" + str(index) + " (" + str(timestamp) + ").wav"
     object_name = "Sample-" + str(index) + " (" + str(timestamp) + ").wav"
     sf.write(file_name, microphone_data, 22050)
@@ -287,12 +285,12 @@ def send_gunshot_wav_file_to_s3(microphone_data, index, timestamp):
     except ClientError as e:
         logger.error(e)
 
-    logger.info("File upload successful")
     os.remove(file_name)
     return object_name
 
 
 def send_gunshot_notification(object_name):
+    logger.info(f"Object name: " + object_name)
     try:
         payload = {
             "notification": "Gunshot Detected!",
@@ -300,11 +298,11 @@ def send_gunshot_notification(object_name):
             "s3_url": f'''https://{S3_BUCKET_NAME}.s3.amazonaws.com/{urllib.parse.quote_plus(object_name, safe="~()*!.'")}''',
         }
 
-        print("Payload data:\n" + json.dumps(payload))
-
-        requests.post(FRONTEND_URL, params=payload)
-    except:
+        response = requests.post(FRONTEND_URL, json=payload)
+        logger.info(f"Gunshot notification POST response: {response.status_code} {response.content}")
+    except Exception as e:
         logger.error("Unable to send Gunshot notification")
+        logger.error(e)
 
 
 def getserial():
@@ -546,7 +544,7 @@ while True:
 
             # Increments the counter for gunshot sound file names
             gunshot_sound_counter += 1
-            print("Gunshot detected!!: " + str(gunshot_sound_counter))
+            logger.info("Gunshot detected!!: " + str(gunshot_sound_counter))
 
             # Makes a WAV file of the gunshot sample
             object_name = send_gunshot_wav_file_to_s3(modified_microphone_data, gunshot_sound_counter,
