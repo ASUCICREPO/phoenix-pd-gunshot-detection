@@ -1,4 +1,5 @@
 raspberry_pi/Gunshot_Detection_System_Recordings/
+*.out
 *.log
 .DS_Store
 # Byte-compiled / optimized / DLL files
