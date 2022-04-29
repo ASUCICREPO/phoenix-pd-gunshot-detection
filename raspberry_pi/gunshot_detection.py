@@ -275,17 +275,19 @@ def convert_audio_to_spectrogram(data):
 
 # Saves a two-second gunshot sample as a WAV file
 def send_gunshot_wav_file_to_s3(microphone_data, index, timestamp):
-    logger.info("Sending gunshot .wav file to S3")
-
-    file_name = "./Gunshot_Detection_System_Recordings/Sample-" + str(index) + " (" + str(timestamp) + ").wav"
-    object_name = "Sample-" + str(index) + " (" + str(timestamp) + ").wav"
-    sf.write(file_name, microphone_data, 22050)
+    object_name = None
     try:
+        logger.info("Sending gunshot .wav file to S3")
+
+        file_name = "./Gunshot_Detection_System_Recordings/Sample-" + str(index) + " (" + str(timestamp) + ").wav"
+        object_name = "Sample-" + str(index) + " (" + str(timestamp) + ").wav"
+        sf.write(file_name, microphone_data, 22050)
         response = s3_client.upload_file(file_name, S3_BUCKET_NAME, object_name)
-    except ClientError as e:
+        os.remove(file_name)
+
+    except Exception as e:
         logger.error(e)
 
-    os.remove(file_name)
     return object_name
 
 
@@ -451,6 +453,17 @@ stream = pa.open(format=AUDIO_FORMAT,
                  frames_per_buffer=NUMBER_OF_FRAMES_PER_BUFFER,
                  input=True,
                  stream_callback=callback)
+
+
+# Sending Device boot signal
+try:
+    boot_payload = {"device_id": getserial(), "notification": "Device Booted!"}
+    print(f"Device boot payload: {boot_payload}")
+    response = requests.post(FRONTEND_URL, json=boot_payload)
+    logger.info(f"Device Info: {boot_payload}")
+    logger.info(f"Device booted: {response.status_code} {response.content}")
+except Exception as e:
+    logger.error(e)
 
 # Starts the callback thread
 stream.start_stream()
