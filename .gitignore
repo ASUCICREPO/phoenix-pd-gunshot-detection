@@ -1,4 +1,4 @@
-raspberry_pi/Gunshot_Detection_System_Recordings/
+#raspberry_pi/Gunshot_Detection_System_Recordings/
 *.out
 *.log
 .DS_Store
