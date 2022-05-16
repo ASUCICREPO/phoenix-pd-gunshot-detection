@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "aws-sdk": "^2.1124.0",
+    "bcrypt-nodejs": "^0.0.3",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.3.1",
+    "mongoskin": "^2.1.0",
+    "nodemon": "^2.0.16",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0"
+  }
+}

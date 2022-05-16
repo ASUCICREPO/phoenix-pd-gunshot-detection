@@ -1,0 +1,22 @@
+{
+  "name": "gunshot-server",
+  "version": "1.0.0",
+  "description": "gunshot detection node server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "dynamodb"
+  ],
+  "author": "asu-cic",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1048.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.3",
+    "uuidv1": "^1.6.14"
+  }
+}

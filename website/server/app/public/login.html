@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+  <meta content="width=device-width, initial-scale=1, max-width=device-width, max-scale=1" name="viewport">
+   <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      
+      var start = function(){
+        $('.modal').modal();
+        $("#passwordR").on("keyup focusout", function (e) {
+          if ($(this).val().length < 5) {
+            $(this).removeClass("valid").addClass("invalid");
+            $("#registerButton").fadeOut();
+          } else {
+            $(this).removeClass("invalid").addClass("valid");
+            $("#registerButton").fadeIn();
+          }
+        });
+
+        $("#loginRegisterWrapper").fadeIn();
+        M.Tabs.init(document.getElementById("loginTabs"), {});
+        var hash = window.location.hash.replace("#","")
+        var eid = hash.split(",")[1] || "";
+        var fail = hash.split(",")[0] || "";
+        if(fail == "fail"){
+          $("#password").addClass("invalid");
+          if (eid != ""){
+            $("#email").val(eid);
+            $("#email").addClass("invalid");
+          }
+        }
+        if(fail === "failReg"){
+          var instance = M.Tabs.getInstance(document.getElementById("loginTabs"));
+          instance.select("registerSection");
+          instance = M.Modal.getInstance(document.getElementById("failReg"));
+          instance.open();
+        }
+        $("#registerButton").fadeOut();
+      }
+    </script>
+  </head>
+    <body onload='start()'>
+    <h1 id='header' style='margin-bottom:50px;text-align:center'>
+        My App!
+    </h1>
+        
+
+    <div style='margin:auto; max-width:400px;display:none' id='loginRegisterWrapper' class='container card'>
+      <div class="col s12">
+       <ul class="tabs" id='loginTabs' style='text-align:center'>
+        <li class="tab col s3"><a class="active" href="#loginSection">Login</a></li>
+        <li class="tab col s3"><a href="#registerSection">Register</a></li>
+       </ul>
+      </div>
+      <div id='loginSection' style='padding-bottom:10px;'>
+       <form name='login' action="/tryLogin" method="post">
+        <div class="row">
+              <div class="input-field col s12">
+                <input id="email" type="email" class="validate" name='email'>
+                <label for="email">Email</label>
+                <span class="helper-text" data-error="wrong" data-success="right"></span>
+              </div>
+        </div>
+        <div class="row">
+              <div class="input-field col s12">
+                <input id="password" type="password" name='password'  class="validate">
+                <label for="password" class="">Password</label>
+                <span class="helper-text" data-error="wrong" data-success="right"></span>
+              </div>
+         </div>
+          <button type='submit' class="btn waves-effect waves-light"  name="action" style='margin:auto;display: block;margin-bottom:30px'>Login
+              <i class="material-icons right">arrow_forward</i>
+          </button>
+        </form>
+      </div>
+      <div id='registerSection' style='padding-bottom:10px;'>
+       <form name='register' action="/tryRegister" method="post">
+        <div class="row">
+              <div class="input-field col s12">
+                <input id="emailR" type="email" name='emailR'  class="validate">
+                <label for="emailR">Email</label>
+                <span class="helper-text" data-error="wrong" data-success="right"></span>
+              </div>
+         </div>
+        <div class="row">
+              <div class="input-field col s12">
+                <input id="passwordR" type="password" name='passwordR' class="validate" data-length="10">
+                <label for="passwordR" class="">Password</label>
+                <span class="helper-text" data-error="Password needs to be atleast 5 charecters" data-success="Valid Password"></span>
+              </div>
+         </div>
+          <button id='registerButton' class="btn waves-effect waves-light" type='submit'  style='margin:auto;display:block;margin-bottom:30px'>Register
+              <i class="material-icons left">assignment_ind</i>
+          </button>
+        </form>
+      </div>
+    </div>
+    
+      <!-- Modal Structure -->
+  <div id="failReg" class="modal">
+    <div class="modal-content">
+      <h4>Registration failed</h4>
+      <p>Please try again in a few minutes</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
+  </div>
+    </body>
+            
+</html>
