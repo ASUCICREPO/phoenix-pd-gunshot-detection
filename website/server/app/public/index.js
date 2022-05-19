@@ -122,15 +122,15 @@ function initMap() {
     (total, next) => total + next.lat, 0
   ) / data.length
 
-  averageLon = data.reduce(
-    (total, next) => total + next.lon, 0
+  averageLong = data.reduce(
+    (total, next) => total + next.long, 0
   ) / data.length
 
-  const dumbo = { lat: averageLat, lng: averageLon };
+  const dumbo = { lat: averageLat, lng: averageLong };
   const mapOptions = {
     center: dumbo,
     // TODO: adjust zoom
-        zoom: 1,
+        zoom: 10,
         panTo: dumbo,
     };
     const googlemap = new google.maps.Map(
