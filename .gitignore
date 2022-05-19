@@ -166,3 +166,6 @@ cython_debug/
 raspberry_pi/dryrun.py
 
 website/server/config.js
+
+website/node_modules
+website/package-lock.json

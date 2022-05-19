@@ -9,6 +9,7 @@
     "express": "^4.17.3",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.2",
+    "forever": "^4.0.3",
     "method-override": "^3.0.0",
     "mongoose": "^6.3.1",
     "mongoskin": "^2.1.0",
