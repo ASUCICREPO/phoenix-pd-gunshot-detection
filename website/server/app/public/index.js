@@ -6,7 +6,11 @@ const unsubToast1 = document.getElementById("gunshot-unsub1");
 const toggleSwitch = document.getElementById('toggle-switch');
 
 toggleSwitch.addEventListener("change", (event) => {
-    console.log(event)
+    if (event.target.checked) {
+        getRawLocations()
+    } else {
+        getLocations()
+    }
 })
 
 subBtn.addEventListener("click", (event) => {
@@ -98,8 +102,8 @@ function getRawLocations() {
         .then((response) => response.json())
         .then((json) => {
             raw_locations = json.locations;
-            for(i=0;i<raw_locations.length;i++){
-              raw_locations[i]['long'] = raw_locations[i]['lon']
+            for (i = 0; i < raw_locations.length; i++) {
+                raw_locations[i]['long'] = raw_locations[i]['lon']
             }
             console.log('raw_locations')
             console.log(raw_locations)
@@ -108,30 +112,27 @@ function getRawLocations() {
 }
 
 function initMap() {
-  // TODO: add average of locations here
-  const center = {}
-  // if checked
-  if (toggleSwitch.checked){
-    data = raw_locations
-  }
-  else{
-    data = locations
-  }
+    // if checked
+    if (toggleSwitch.checked) {
+        data = raw_locations
+    } else {
+        data = locations
+    }
 
-  averageLat = data.reduce(
-    (total, next) => total + next.lat, 0
-  ) / data.length
+    averageLat = data.reduce(
+        (total, next) => total + next.lat, 0
+    ) / data.length
 
-  averageLong = data.reduce(
-    (total, next) => total + next.long, 0
-  ) / data.length
+    averageLong = data.reduce(
+        (total, next) => total + next.long, 0
+    ) / data.length
 
-  const dumbo = { lat: averageLat, lng: averageLong };
-  const mapOptions = {
-    center: dumbo,
-    // TODO: adjust zoom
-        zoom: 10,
-        panTo: dumbo,
+    const center = { lat: averageLat, lng: averageLong };
+    const mapOptions = {
+        center: center,
+        // TODO: adjust zoom
+        zoom: 15,
+        panTo: center,
     };
     const googlemap = new google.maps.Map(
         document.getElementById("map"),
@@ -189,5 +190,9 @@ function setMarker(locations, googlemap, infowindow) {
 }
 
 setInterval(() => {
-    getLocations();
+    if (toggleSwitch.checked) {
+        getRawLocations()
+    } else {
+        getLocations()
+    }
 }, 60 * 1000);
