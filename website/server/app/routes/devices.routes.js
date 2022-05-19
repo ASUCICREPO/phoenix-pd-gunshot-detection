@@ -5,6 +5,7 @@ module.exports = (app) => {
 
   // get all incidents
   router.get("/", device.getDevices);
+  router.get("/locations", device.getDeviceLocations);
 
   app.use("/api/devices", router);
 };

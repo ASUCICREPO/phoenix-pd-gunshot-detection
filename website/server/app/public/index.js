@@ -80,6 +80,7 @@ function unsubscribe() {
 let markers = [];
 let locations = [];
 let raw_locations = [];
+let device_latlongs = {};
 
 
 function getLocations() {
@@ -101,14 +102,29 @@ function getRawLocations() {
         })
         .then((response) => response.json())
         .then((json) => {
-            raw_locations = json.locations;
-            for (i = 0; i < raw_locations.length; i++) {
-                raw_locations[i]['long'] = raw_locations[i]['lon']
+            device_locs = json.locations;
+            for (i = 0; i < device_locs.length; i++) {
+                device_latlongs[device_locs[i]['device_id']] = {
+                    'lat': device_locs[i]['lat'],
+                    'long': device_locs[i]['lon']
+                }
             }
-            console.log('raw_locations')
-            console.log(raw_locations)
-            initMap();
-        });
+            fetch("https://asucic-gunshotdetection.com/api/incidents/rawlocations", {
+                    method: "GET",
+                })
+                .then((response) => response.json())
+                .then((json) => {
+                    raw_locations = json.locations;
+                    for (i = 0; i < raw_locations.length; i++) {
+                        latlongs = device_latlongs[raw_locations[i]['device_id']]
+                        raw_locations[i]['long'] = latlongs['long']
+                        raw_locations[i]['lat'] = latlongs['lat']
+                    }
+                    console.log('raw_locations')
+                    console.log(raw_locations)
+                    initMap();
+                });
+        })
 }
 
 function initMap() {
