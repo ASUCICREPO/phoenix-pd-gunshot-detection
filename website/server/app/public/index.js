@@ -97,7 +97,7 @@ function getLocations() {
 }
 
 function getRawLocations() {
-    fetch("https://asucic-gunshotdetection.com/api/incidents/rawlocations", {
+    fetch("https://asucic-gunshotdetection.com/api/devices/locations", {
             method: "GET",
         })
         .then((response) => response.json())
