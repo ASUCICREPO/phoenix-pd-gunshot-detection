@@ -7,7 +7,7 @@ exports.getDevices = (req, res) => {
   const docClient = new AWS.DynamoDB.DocumentClient();
 
   const params = {
-    TableName: config.aws_table_2_name,
+    TableName: config.triangulated_table,
   };
 
   docClient.scan(params, function (err, data) {

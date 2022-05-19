@@ -14,7 +14,7 @@ exports.getIncidents = (req, res) => {
     const docClient = new AWS.DynamoDB.DocumentClient();
 
     const params = {
-        TableName: config.aws_table_name,
+        TableName: config.raw_data_table,
     };
 
     docClient.scan(params, function(err, data) {
@@ -72,7 +72,7 @@ exports.uploadIncident = (req, res) => {
     if (s3url !== "") {
         console.log("gunshot detected!");
         params = {
-            TableName: config.aws_table_name,
+            TableName: config.raw_data_table,
             Item: {
                 device_id: device_id,
                 s3_url: s3url,
@@ -84,7 +84,7 @@ exports.uploadIncident = (req, res) => {
     } else {
         console.log("Booting devices!");
         params = {
-            TableName: config.aws_table_4_name,
+            TableName: config.device_location_table,
             Item: {
                 device_id: device_id,
                 notification: notification,
@@ -129,7 +129,7 @@ exports.getLocations = (req, res) => {
     const docClient = new AWS.DynamoDB.DocumentClient();
 
     const params = {
-        TableName: config.aws_table_2_name,
+        TableName: config.triangulated_table,
     };
 
     docClient.scan(params, function(err, data) {
@@ -142,6 +142,36 @@ exports.getLocations = (req, res) => {
             });
         } else {
             console.log("GOT LOCATIONS!");
+            const { Items } = data;
+            res.json({
+                success: true,
+                locations: Items,
+            });
+        }
+    });
+};
+
+
+exports.getRawLocations = (req, res) => {
+    console.log("GOT HERE");
+    AWS.config.update(config.aws_remote_config);
+
+    const docClient = new AWS.DynamoDB.DocumentClient();
+
+    const params = {
+        TableName: config.raw_data_table,
+    };
+
+    docClient.scan(params, function(err, data) {
+        if (err) {
+            console.log("ERROR!");
+            console.log(err);
+            res.json({
+                success: false,
+                message: err,
+            });
+        } else {
+            console.log("GOT RAW LOCATIONS!");
             const { Items } = data;
             res.json({
                 success: true,

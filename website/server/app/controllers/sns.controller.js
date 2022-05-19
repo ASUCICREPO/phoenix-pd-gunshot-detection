@@ -18,7 +18,7 @@ exports.subscribe = (req, res) => {
       console.log("\nsuccessfully subscribed to topic");
       let subscriptionArn = data.SubscriptionArn;
       let params1 = {
-        TableName: config.aws_table_3_name,
+        TableName: config.subscription_table,
         Item: {
           mobile_number: number,
           subscription_arn: subscriptionArn,
@@ -51,7 +51,7 @@ exports.unsubscribe = (req, res) => {
   var sns = new AWS.SNS({ apiVersion: "2010-03-31" });
   const docClient = new AWS.DynamoDB.DocumentClient();
   let params = {
-    TableName: config.aws_table_3_name,
+    TableName: config.subscription_table,
     Key: { mobile_number: number },
   };
   docClient.get(params, function (err, data) {
