@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const config = require("../../config");
+const timeouts = {}
 
 exports.incidentTest = (req, res) => {
     res.json({
@@ -33,33 +34,24 @@ exports.getIncidents = (req, res) => {
     });
 };
 
-statusPutParams = {
-    TableName: config.status_table,
-}
-
-statusGetParams = {
-    TableName: config.status_table,
-    Key: {
-        id: 1
-    }
-}
 
 function publishMessage() {
-  var params = {
-      Message: 'Trigger triangulation',
-      TopicArn: config.triangulation_arn
-  }
+    var params = {
+        Message: 'Trigger triangulation',
+        TopicArn: config.triangulation_arn
+    }
 
-  var publishTextPromise = new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
-  publishTextPromise.then(
-      function(data) {
-          console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
-          console.log("MessageID is " + data.MessageId);
-      }).catch(
-      function(err) {
-          console.error(err, err.stack);
-      }
-  );
+    var publishTextPromise = new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
+    publishTextPromise.then(
+        function(data) {
+            console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
+            console.log("MessageID is " + data.MessageId);
+            delete timeouts[1]
+        }).catch(
+        function(err) {
+            console.error(err, err.stack);
+        }
+    );
 }
 
 exports.uploadIncident = (req, res) => {
@@ -119,25 +111,12 @@ exports.uploadIncident = (req, res) => {
             // if gunshot detected, put timer to call triangulation
             if (s3url !== "") {
                 // check if timer is set
-                docClient.get(statusGetParams, function(err, data) {
-                    if (!err) {
-                        clearTimeout(data.intervalId);
-                    }
-                    intervalId = setTimeout(publishMessage, config.timeout_duration)
-                    item = {
-                        id: 1,
-                        intervalId: intervalId,
-                    }
-                    statusPutParams['Item'] = item;
-                    docClient.put(statusPutParams, function(err, data) {
-                        if (err) {
-                            console.log(err);
-                            console.log("\nFailed to set timerid in status table");
-                        } else {
-                            console.log("\nSuccessfully set timerid in status table");
-                        }
-                    })
-                })
+                console.log('timeouts', timeouts)
+                if (timeouts[1]) {
+                    clearTimeout(timeouts[1])
+                    delete timeouts[1]
+                }
+                timeouts[1] = setTimeout(publishMessage, config.timeout_duration)
             }
         }
     });
