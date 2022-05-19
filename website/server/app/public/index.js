@@ -101,20 +101,24 @@ function getRawLocations() {
             method: "GET",
         })
         .then((response) => response.json())
-        .then((json) => {
-            device_locs = json.locations;
+        .then((json1) => {
+            device_locs = json1.locations;
+            console.log('device locs')
+            console.log(device_locs)
             for (i = 0; i < device_locs.length; i++) {
                 device_latlongs[device_locs[i]['device_id']] = {
                     'lat': device_locs[i]['lat'],
                     'long': device_locs[i]['lon']
                 }
             }
+            console.log('device lat longs')
+            console.log(device_latlongs)
             fetch("https://asucic-gunshotdetection.com/api/incidents/rawlocations", {
                     method: "GET",
                 })
                 .then((response) => response.json())
-                .then((json) => {
-                    raw_locations = json.locations;
+                .then((json2) => {
+                    raw_locations = json2.locations;
                     for (i = 0; i < raw_locations.length; i++) {
                         latlongs = device_latlongs[raw_locations[i]['device_id']]
                         raw_locations[i]['long'] = latlongs['long']
