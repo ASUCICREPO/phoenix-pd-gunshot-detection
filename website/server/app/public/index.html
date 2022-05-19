@@ -195,19 +195,14 @@
     <div class="map-container">
       <section class="container">
         <h2 class="py-2">
-          Toggle to view raw gunshot data or triangulated gunshot data
-        </h2>
-        <div id="toggle-data">
-          <!-- <input type="" id="date-range" placeholder="click here" /> -->
-          <input type="checkbox" class="toggle-input" id="toggle-switch">
-        </div>
-      </section>
-      <section class="container">
-        <h2 class="py-2">
           Filter dates to view gunshot in specific time period
         </h2>
         <div id="range">
           <input type="text" id="date-range" placeholder="click here" />
+        </div>
+        <div id="toggle-data" class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="toggle-switch">
+          <label class="custom-control-label" for="toggle-switch">Show Raw Data</label>
         </div>
       </section>
       <br /><br />

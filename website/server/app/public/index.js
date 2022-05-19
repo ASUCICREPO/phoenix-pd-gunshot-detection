@@ -98,6 +98,9 @@ function getRawLocations() {
         .then((response) => response.json())
         .then((json) => {
             raw_locations = json.locations;
+            for(i=0;i<raw_locations.length;i++){
+              raw_locations[i]['long'] = raw_locations[i]['lon']
+            }
             console.log('raw_locations')
             console.log(raw_locations)
             initMap();
@@ -106,7 +109,24 @@ function getRawLocations() {
 
 function initMap() {
   // TODO: add average of locations here
-  const dumbo = { lat: 33.5167866, lng: -112.1200144 };
+  const center = {}
+  // if checked
+  if (toggleSwitch.checked){
+    data = raw_locations
+  }
+  else{
+    data = locations
+  }
+
+  averageLat = data.reduce(
+    (total, next) => total + next.lat, 0
+  ) / data.length
+
+  averageLon = data.reduce(
+    (total, next) => total + next.lon, 0
+  ) / data.length
+
+  const dumbo = { lat: averageLat, lng: averageLon };
   const mapOptions = {
     center: dumbo,
     // TODO: adjust zoom
@@ -120,7 +140,7 @@ function initMap() {
 
     const infowindow = new google.maps.InfoWindow();
 
-    setMarker(locations, googlemap, infowindow);
+    setMarker(data, googlemap, infowindow);
 
     const dateRange = flatpickr("#date-range", {
         mode: "range",
@@ -129,7 +149,7 @@ function initMap() {
                 var start = new Date(dates[0]);
                 var end = new Date(dates[1]);
 
-                let newArray = locations.filter((item) => {
+                let newArray = data.filter((item) => {
                     let date = new Date(parseInt(item.timestamp));
                     return date >= start && date <= end;
                 });
@@ -170,4 +190,4 @@ function setMarker(locations, googlemap, infowindow) {
 
 setInterval(() => {
     getLocations();
-}, 6 * 1000);
+}, 60 * 1000);
