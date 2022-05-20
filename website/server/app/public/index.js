@@ -143,7 +143,7 @@ function listAudioSources() {
                 audioList.removeChild(0)
             }
             for (i = 0; i < audio_sources.length; i++) {
-                let audioElem = Audio(audio_sources[i]['s3_url'])
+                let audioElem = new Audio(audio_sources[i]['s3_url'])
                 let date = new Date(parseInt(audio_sources[i]['timestamp']));
                 let spanElem = document.createElement('span')
                 spanElem.innerText = date.toISOString()
