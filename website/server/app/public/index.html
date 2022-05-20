@@ -202,11 +202,14 @@
         </div>
         <div id="toggle-data" class="custom-control custom-switch">
           <input type="checkbox" class="custom-control-input" id="toggle-switch">
-          <label class="custom-control-label" for="toggle-switch">Show Raw Data</label>
+          <label class="custom-control-label" for="toggle-switch">Show Raw Gunshot Data</label>
         </div>
       </section>
       <br /><br />
-      <div id="map"></div>
+      <div class="container" style="display:flex;">
+        <div id="map" style="flex:3"></div>
+        <div id="audio-list" style="flex:1"></div>
+      </div>
     </div>
     <script src="index.js"></script>
     <script

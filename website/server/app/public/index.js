@@ -131,6 +131,25 @@ function getRawLocations() {
         })
 }
 
+function listAudioSources() {
+    fetch("https://asucic-gunshotdetection.com/api/incidents/rawlocations", {
+            method: "GET",
+        })
+        .then((response) => response.json())
+        .then((json2) => {
+            audio_sources = json2.locations;
+            const audioList = document.getElementById('audio-list')
+            while (audioList.childElementCount != 0) {
+                audioList.removeChild(0)
+            }
+            for (i = 0; i < audio_sources.length; i++) {
+                let audioElem = document.createElement('audio')
+                audioElem.src = audio_sources[i]['s3_url']
+                audioList.appendChild(audioElem)
+            }
+        });
+}
+
 function initMap() {
     // if checked
     if (toggleSwitch.checked) {
@@ -183,6 +202,8 @@ function initMap() {
             }
         },
     });
+
+    listAudioSources();
 }
 
 // TODO: add info on markers
