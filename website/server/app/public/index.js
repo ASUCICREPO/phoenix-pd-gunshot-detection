@@ -138,6 +138,7 @@ function listAudioSources() {
         .then((response) => response.json())
         .then((json2) => {
             audio_sources = json2.locations;
+            audio_sources.sort((a,b) => int(a['timestamp']) - int(b['timestamp']))
             const audioList = document.getElementById('audio-list')
             while (audioList.childElementCount != 0) {
                 audioList.removeChild(0)
@@ -149,6 +150,8 @@ function listAudioSources() {
                 let spanElem = document.createElement('span')
                 spanElem.innerText = date.toString() 
                 let container = document.createElement('div')
+                container.style.display = 'flex';
+                container.style.flexDirection = 'column';
                 container.appendChild(spanElem)
                 container.appendChild(audioElem)
                 audioList.appendChild(container)
