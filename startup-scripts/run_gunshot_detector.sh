@@ -26,6 +26,6 @@ else
 fi
 
 echo -e "$(date):: +++ Executing Gunshot detection python script +++" >> $LOGFILE
-nohup python3 gunshot_detection.py &
+nohup python3 gunshot_detection.py &>> $LOGFILE &
 
 echo -e "$(date):: === Gunshot Script Executed ===" >> $LOGFILE
