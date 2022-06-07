@@ -1,6 +1,7 @@
 #!/bin/bash
 LOGFILE="$(pwd)/gunshot_cronjob.log"
-PROJECT_PATH="~/Code/phoenix-pd-gunshot-detection/raspberry_pi/"
+PROJECT_PATH="/Users/risabhrizz/Code/Projects/phoenix-pd-gunshot-detection/raspberry_pi/"
+# PROJECT_PATH="~/Code/phoenix-pd-gunshot-detection/raspberry_pi/"
 
 if [[ ! -d $PROJECT_PATH ]]; then
     echo -e "$(date):: Project Path Incorrect: $PROJECT_PATH" >> $LOGFILE
@@ -26,6 +27,6 @@ else
 fi
 
 echo -e "$(date):: +++ Executing Gunshot detection python script +++" >> $LOGFILE
-nohup python3 gunshot_detection.py &
+# nohup python3 gunshot_detection.py &
 
 echo -e "$(date):: === Gunshot Script Executed ===" >> $LOGFILE
