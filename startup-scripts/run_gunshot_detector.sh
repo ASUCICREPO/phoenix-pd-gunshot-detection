@@ -1,6 +1,6 @@
 #!/bin/bash
 LOGFILE="$(pwd)/gunshot_cronjob.log"
-PROJECT_PATH="~/Code/phoenix-pd-gunshot-detection/raspberry_pi/"
+PROJECT_PATH="/home/pi/Code/phoenix-pd-gunshot-detection/raspberry_pi/"
 
 if [[ ! -d $PROJECT_PATH ]]; then
     echo -e "$(date):: Project Path Incorrect: $PROJECT_PATH" >> $LOGFILE
