@@ -85,15 +85,33 @@ exports.uploadIncident = (req, res) => {
         console.log("Booting devices!");
         params = {
             TableName: config.device_location_table,
+            Key: {"device_id": device_id},
             Item: {
                 device_id: device_id,
                 notification: notification,
                 timestamp: Date.now(),
             },
         };
+
+        docClient.update(params, function(err, data) {
+            if (err) {
+                console.log(err);
+                console.log("\nFailed added item to the table");
+                res.json({
+                    success: false,
+                    message: err,
+                });
+            } else {
+                console.log("\nSuccessfully added item to the table");
+                res.json({
+                    success: true,
+                });
+            }
+        });
+        return 0;
     }
 
-    docClient.update(params, function(err, data) {
+    docClient.put(params, function(err, data) {
         if (err) {
             console.log(err);
             console.log("\nFailed added item to the table");
