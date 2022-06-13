@@ -93,7 +93,7 @@ exports.uploadIncident = (req, res) => {
         };
     }
 
-    docClient.put(params, function(err, data) {
+    docClient.update(params, function(err, data) {
         if (err) {
             console.log(err);
             console.log("\nFailed added item to the table");
