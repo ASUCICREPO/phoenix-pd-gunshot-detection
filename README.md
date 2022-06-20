@@ -11,59 +11,31 @@ Phoenix City PD: Gunshot Detection (Work In Progress)
 | [License](#license)      |     License details.     |
 
 # Overview
-Give an overview of the challenge. What was the motivation behind this project? Who are we collaborating with? What is the solution presented in this repository? What problems will this challenge solve? Give a summary of all these questions which should be explained in detail in the following sections.
+![Gunshot Visual](./images/gunshot-visual.png)
 
 # Description
 
-The best resource for filling this as well as the following sections is the 'ASU CIC Blogpost' of the challenge that you are working on. 100% of the times, the ASU CIC Blogpost is written and published only after multiple reviews with the customer and hence we need to make sure that we do not change the description, approach or the problem by paraphrasing it incorrectly. 
+Identifying gun incidents in real time can help police, respond faster, identify criminals and reduce gun violence. Existing systems are expensive to deploy and operate which prevents some cities from being able to access the solution and to deploy in a large enough area to be effective. Existing systems can also take a long-time to provide responding officer with the inncident information which limits an effective response. 
 
-Refer: https://smartchallenges.asu.edu/challenges
+The ASU CIC and the Phoenix Police Department worked together to reimagine how to develop a solution that would be inexpensive, easy to deploy extensively, reduce societal challenges with how they are used, and turn a gunshot detection alerts into identified offenders.  
 
 ## Problem
-Explain the problem in detail here and explain the benefits of solving this problem.
-Refer: https://smartchallenges.asu.edu/challenges
-
-## Approach
-Explain the approach of the problem in brief here and include links to all organizations and services that are mentioned.
-Refer: https://smartchallenges.asu.edu/challenges
+Today, over 2,000 gun incidents occur in the City of Phoenix each year on average and the rate of gun violence is increasing according to EveryStat for Gun Violence. Additionally,  gun violence costs Arizona taxpayers $263.2 million each year. According to the CDC (2019), Arizona has a rate of death due to firearm injury of 15.1 per 100,000 and 1,136 citizens died of firearm injury in 2019. Getting the right information to the right officers at the right time is a challenge to identifying , catching, and prosecuting offenders. Without a gunshot detection system, police have to rely on being in the area at the right time or a 911 call, which puts too much time between the gunshot and responding officers. Too often with existing gunshot detection systems there is a long delay between the time a gun is fired and when patrol officers receive the alert. By the time responding officers get to the scene, the offenders have fled. The cost of other detection systems prevents the wide scale deployment, which limits effectiveness.
 
 ## Architecture Diagram
-
-As seen in the example images below, we create a high level overview of the architecture and then a detailed version of the same.
-
-
-High-level overview of the application
-![Process-flow-chart](./images/process_flow.png)
-
-This chart should explain the work-flow and show which services are being used in the solution. The process flow chart should be created during the development of the solution and should be used to keep track of which services are currently under development and which of them are completed. This chart gives a good overview to the team as well as the customers during a bi-weekly update.
-
-
-Detailed Architectural diagram
-![Architectural diagram](./images/architectural_diagram.png)
-
-The detailed architecture diagram should include the data-flow, database schema, interactions & integrations between services, and finally the user's role/ possible interactions. This diagram is usually updated as changes are made in the architecture or new features are added. 
-
-These diagrams can be made using https://app.diagrams.net/ .
+![Process-flow-chart](./images/architecture-diagram.png)
 
 ## Functionality 
-Explain the functionality of the problem and talk about the major challenges faced during the development process. Explain the techniques used to tackle these challenges. Provide visual cues or images which will help a layman understand the challenge and the solution incorporated to solve the problem.
+Our project combines [Gunshot detection algorithm for Raspberry Pi](https://github.com/gabemagee/gunshot_detection) and AWS to implement the workflow in the above architecture diagram.
 
 ## Technologies
-List all the technologies, services, libraries, and frameworks used in this project. Provide a link to their website or documentation URL for all of them. 
-For example:
 
-1. Amazon Web Services ->
-    - [Lambda functions and layers](https://aws.amazon.com/lambda/)
-    - [DynamoDB](https://aws.amazon.com/dynamodb/)
-    - [Amazon Rekognition](https://aws.amazon.com/rekognition/)
-    - [Simple Storage Service](https://aws.amazon.com/s3/)
-    - [Simple Notification Service](https://aws.amazon.com/sns/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc)
-    - [Virtual Private Cloud](https://aws.amazon.com/vpc/)
-    - [Elastic Compute Cloud](https://aws.amazon.com/ec2/)
-2. GIS ->
-    - [GeoPandas](https://geopandas.org/en/stable/) 
-    - [Shapely](https://shapely.readthedocs.io/en/stable/manual.html)
-    - [ArcGIS/ ArcGIS Pro](https://www.arcgis.com/index.html)
+**Amazon Web Services:**
+- [Lambda functions and layers](https://aws.amazon.com/lambda/)
+- [DynamoDB](https://aws.amazon.com/dynamodb/)
+- [Simple Storage Service](https://aws.amazon.com/s3/)
+- [Simple Notification Service](https://aws.amazon.com/sns)
+- [Elastic Compute Cloud](https://aws.amazon.com/ec2/)
 
 
 ## Assumptions
@@ -108,20 +80,14 @@ For example:
 
 # Credits
 
-Include credits for every member that worked on this challenge, explain their role in a single word/phrase, leave a LinkedIn URL for them or any other website they would like to be included. 
-Add links about the organizations that you might have collaborated with.
+"phoenix-pd-gunshot-detection" is an open source software. The following people have contributed to this project.
 
-For example:
-
-
-**Developers:**
-- [Mary Jane](https://www.linkedin.com/)
-
-**UI Designers:**
-- [John Doe](https://www.linkedin.com/)
-
-**Subject Matter Experts:**
-- [Jane Smith](https://www.linkedin.com/)
+**Developers:**  
+[Krishna Teja Kalaparty](https://www.linkedin.com/in/krishna-teja-kalaparty-a073b5195/)  
+[Risabh Raj](https://www.linkedin.com/in/risabh-raj/)  
+[Soham Sahare](https://www.linkedin.com/in/sohamsahare11/)  
+[Sameet Kumar](https://www.linkedin.com/in/sameethkrishna/)  
+[Yug Gulati](https://www.linkedin.com/in/yug-gulati/)  
 
 **Sr. Program Manager, AWS:**  [Jubleen Vilku](https://www.linkedin.com/in/jubleen-vilku/)
 
@@ -129,8 +95,5 @@ For example:
 
 **General Manager, ASU:** [Ryan Hendrix](https://www.linkedin.com/in/ryanahendrix/)
 
-
-Finally, add the link to the ASU CIC website and other references as needed.
-For example:
 
 This project is designed and developed with guidance and support from the [ASU Cloud Innovation Center](https://smartchallenges.asu.edu/) and the [City of Phoenix, Arizona](https://www.phoenix.gov/streets/) teams. 
