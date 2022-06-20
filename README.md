@@ -38,20 +38,6 @@ Our project combines [Gunshot detection algorithm for Raspberry Pi](https://gith
 - [Elastic Compute Cloud](https://aws.amazon.com/ec2/)
 
 
-## Assumptions
-Talk about the assumptions behind this challenge, explain why they were taken. These include Business and Technology related assumptions.
-For example, in the [Phoenix pedestrian fatalities challenge](https://smartchallenges.asu.edu/curbphx-sidewalk-inventory), City of Phoenix - Street Transportation department wanted a sidewalk inventory which can be used to keep track of status of the sidewalks, know which areas have no sidewalk and many more. 
-
-Here Business assumptions were:
-- To use Aerial drone imagery (provided by Eagleview) over Google Street View as the City of Phoenix had images from the same provider
-- To focus on type of sidewalks or if sidewalks don't exist rather than finding details like if a sidewalk ramp exists or if there are cracks on the sidewalk
-
-Technology Assumptions were:
-- Being a prototype, we do not create an architecture which can be scaled up for millions of images as the purpose is to demonstrate a proof of concept
-- Users have access to at least 500 images with atleast 100+ images per label (sidewalk, detached sidewalk, no sidewalk)
-- Every image has a metadata information associated by it in some way or other which needs to cleaned and formatted in a particular pattern
-
-
 # Deployment
 
 Explain the process of how to deploy your application in detail. You may create a separate document and add a link to that document in this section as demonstrated below.
@@ -80,14 +66,14 @@ For example:
 
 # Credits
 
-"phoenix-pd-gunshot-detection" is an open source software. The following people have contributed to this project.
+**phoenix-pd-gunshot-detection** is an open source software. The following people have contributed to this project.
 
 **Developers:**  
-[Krishna Teja Kalaparty](https://www.linkedin.com/in/krishna-teja-kalaparty-a073b5195/)  
-[Risabh Raj](https://www.linkedin.com/in/risabh-raj/)  
-[Soham Sahare](https://www.linkedin.com/in/sohamsahare11/)  
-[Sameet Kumar](https://www.linkedin.com/in/sameethkrishna/)  
-[Yug Gulati](https://www.linkedin.com/in/yug-gulati/)  
+- [Krishna Teja Kalaparty](https://www.linkedin.com/in/krishna-teja-kalaparty-a073b5195/)  
+- [Risabh Raj](https://www.linkedin.com/in/risabh-raj/)  
+- [Soham Sahare](https://www.linkedin.com/in/sohamsahare11/)  
+- [Sameet Kumar](https://www.linkedin.com/in/sameethkrishna/)  
+- [Yug Gulati](https://www.linkedin.com/in/yug-gulati/)  
 
 **Sr. Program Manager, AWS:**  [Jubleen Vilku](https://www.linkedin.com/in/jubleen-vilku/)
 
@@ -96,4 +82,4 @@ For example:
 **General Manager, ASU:** [Ryan Hendrix](https://www.linkedin.com/in/ryanahendrix/)
 
 
-This project is designed and developed with guidance and support from the [ASU Cloud Innovation Center](https://smartchallenges.asu.edu/) and the [City of Phoenix, Arizona](https://www.phoenix.gov/streets/) teams. 
+This project is designed and developed with guidance and support from the [ASU Cloud Innovation Center](https://smartchallenges.asu.edu/) and the [City of Phoenix, Arizona](https://www.phoenix.gov/police) teams. 
