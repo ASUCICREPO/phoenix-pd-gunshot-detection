@@ -86,3 +86,6 @@ For example:
 
 
 This project is designed and developed with guidance and support from the [ASU Cloud Innovation Center](https://smartchallenges.asu.edu/) and the [City of Phoenix, Arizona](https://www.phoenix.gov/police) teams. 
+
+# License
+This project is distributed under the [Apache License 2.0](https://github.com/ASUCICREPO/phoenix-pd-gunshot-detection/blob/master/LICENSE)
