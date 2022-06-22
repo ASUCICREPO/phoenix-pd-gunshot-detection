@@ -2,13 +2,13 @@ Phoenix City PD: Gunshot Detection (Work In Progress)
 
 |Index| Description|
 |:----------------|:-----------|
-| [Overview](#overview)         |     See the motivation behind this project.    | 
-| [Description](#description)         |     Learn more about the problem, implemented solution and challenges faced.    | 
-| [Deployment Guide](#deployment)         |    How to install and deploy __insert product name here__ . |
-| [How to Use](#how-to-use)       |     Instructions to use __insert product name here__.   |
-| [Future Enhancements and Limitations](#future-enhancements)       |     Limitations and next steps which can be taken.   |
-| [Credits](#credits)      |     Meet the team behind this.     |
-| [License](#license)      |     License details.     |
+| [Overview](#overview)         |     See the motivation behind this project    | 
+| [Description](#description)         |     Learn more about the problem, implemented solution and challenges faced    | 
+| [Deployment Guide](#deployment)         |    How to install and deploy __phoenix-pd-gunshot-detection__ |
+| [How to Use](#how-to-use)       |     Instructions to use __phoenix-pd-gunshot-detection__   |
+| [Future Enhancements and Limitations](#future-enhancements)       |     Limitations and next steps which can be taken   |
+| [Credits](#credits)      |     Meet the team behind this     |
+| [License](#license)      |     License details     |
 
 # Overview
 ![Gunshot Visual](./images/gunshot-visual.png)
@@ -37,14 +37,17 @@ Our project combines [Gunshot detection algorithm for Raspberry Pi](https://gith
 - [Simple Notification Service](https://aws.amazon.com/sns)
 - [Elastic Compute Cloud](https://aws.amazon.com/ec2/)
 
+## Hardware
+- [Raspberry Pi-4](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/)
+- [SiZHENG Microphone](https://www.amazon.com/COTT-S30-Microphone-Reduction-Monitoring-Security/dp/B07RR94G2T/)
+- [ZTE Max WiFi Hotspot](https://www.amazon.com/ZTE-Unlocked-Download-Anywhere-Microfiber/dp/B08F2WW1H1)
 
 # Deployment
 
-Explain the process of how to deploy your application in detail. You may create a separate document and add a link to that document in this section as demonstrated below.
-
 Refer to following documents for each deployment steps:
-1. [General Deployment guidelines](./docs/deployment.md)
-2. [Specific service Deployment Guide](./docs/rekognition.md)
+1. [Gunshot detection algorithm installation on Raspberry Pis](./raspberry_pi/README.md)
+2. [AWS guide]()
+3. [Dashboard Website](./docs/rekognition.md)
 
 The guide should contain deployment steps for each service used with exact steps outlined. For example, if you are using S3 buckets then explain how to create a bucket, what should they name it as or what naming convention should be followed then explain about how to link that service with another services.
 
