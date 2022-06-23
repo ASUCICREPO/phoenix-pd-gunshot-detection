@@ -172,3 +172,4 @@ corrupt_*
 website/server/config.js
 website/node_modules
 website/package-lock.json
+website/package_copy.json
