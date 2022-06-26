@@ -102,7 +102,7 @@ exports.uploadIncident = (req, res) => {
                     message: err,
                 });
             } else {
-                console.log("\nSuccessfully added item to the table");
+                console.log("\nSuccessfully added item to the table: " + data);
                 res.json({
                     success: true,
                 });
@@ -120,7 +120,7 @@ exports.uploadIncident = (req, res) => {
                 message: err,
             });
         } else {
-            console.log("\nSuccessfully added item to the table");
+            console.log("\nSuccessfully added item to the table" + data);
             res.json({
                 success: true,
             });
