@@ -34,7 +34,7 @@ exports.subscribe = (req, res) => {
             message: err,
           });
         } else {
-          console.log("\nSuccessfully added item to table: " + data);
+          console.log("\nSuccessfully added item to table");
           res.json({
             success: true,
           });
