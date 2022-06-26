@@ -18,11 +18,12 @@
     <style>
       .description {
         font-family: "Urbanist", sans-serif;
-        font-size: 18px;
+        /* font-size: 18px; */
       }
       .description-container {
+        margin: 60px auto;
         margin-top: 20px;
-        margin-left: 10px;
+        width: 90%;
       }
 
       .form-container {
@@ -83,11 +84,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse1">
           <a href="#" class="navbar-brand"
-            >Gunshot Detection powered by the ASU CIC</a
+            >Gunshot Detection powered by ASU CIC</a
           >
           <form class="d-flex ms-auto">
             <button
-              class="btn btn-outline-success"
+              class="btn btn-outline-danger"
               type="button"
               onclick="doLogout()"
             >
@@ -98,17 +99,17 @@
       </div>
     </nav>
     <div class="description-container">
-      <p class="description">
-        Enter your phone number to subscribe or unsubscribe to notifications for
-        gunshot events.
-      </p>
+      <h3 class="description">
+        Enter your phone number with country code to subscribe/unsubscribe to
+        gunshot event notifications
+      </h3>
       <form class="form-inline form-container">
         <input
           id="subscribe-field"
           class="form-control mr-sm-2"
           type="input"
-          placeholder="Enter number here with your country code prefix"
-          aria-label="Enter number here with your country code prefix"
+          placeholder="14802345663"
+          aria-label="14802345663"
         />
         <div class="btn-margin">
           <button
@@ -120,7 +121,7 @@
           </button>
           <button
             id="unsubscribe-button"
-            class="btn btn-outline-success my-2 my-sm-0"
+            class="btn btn-outline-danger my-2 my-sm-0"
             type="button"
           >
             Unsubscribe

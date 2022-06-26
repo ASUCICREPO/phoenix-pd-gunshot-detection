@@ -93,7 +93,6 @@ exports.uploadIncident = (req, res) => {
             },
         };
         console.log(params)
-        console.log(JSON.stringify(params));
 
         docClient.update(params, function(err, data) {
             if (err) {
