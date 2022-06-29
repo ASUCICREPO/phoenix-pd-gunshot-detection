@@ -6,7 +6,7 @@ Phoenix City PD: Gunshot Detection (Work In Progress)
 | [Description](#description)         |     Learn more about the problem, implemented solution and challenges faced    | 
 | [Deployment Guide](#deployment)         |    How to install and deploy __phoenix-pd-gunshot-detection__ |
 | [How to Use](#how-to-use)       |     Instructions to use __phoenix-pd-gunshot-detection__   |
-| [Future Enhancements and Limitations](#future-enhancements)       |     Limitations and next steps which can be taken   |
+| [Limitations](#limitations)       |     Limitations and next steps which can be taken   |
 | [Credits](#credits)      |     Meet the team behind this     |
 | [License](#license)      |     License details     |
 
@@ -15,7 +15,7 @@ Phoenix City PD: Gunshot Detection (Work In Progress)
 
 # Description
 
-Identifying gun incidents in real time can help police, respond faster, identify criminals and reduce gun violence. Existing systems are expensive to deploy and operate which prevents some cities from being able to access the solution and to deploy in a large enough area to be effective. Existing systems can also take a long-time to provide responding officer with the inncident information which limits an effective response. 
+Identifying gun incidents in real time can help police, respond faster, identify criminals and reduce gun violence. Existing systems are expensive to deploy and operate which prevents some cities from being able to access the solution and to deploy in a large enough area to be effective. Existing systems can also take a long-time to provide responding officer with the incident information which limits an effective response. 
 
 The ASU CIC and the Phoenix Police Department worked together to reimagine how to develop a solution that would be inexpensive, easy to deploy extensively, reduce societal challenges with how they are used, and turn a gunshot detection alerts into identified offenders.  
 
@@ -54,10 +54,21 @@ The guide should contain deployment steps for each service used with exact steps
 Videos will help others understand the steps better so make sure to include some. You may upload to YouTube/Vimeo/Dailymotion and embed it here or create small recordings, convert them to GIFs and upload to the repository itself. 
 
 # How to use
-This section aims to give a demo of how to use this project. Make sure to include screenshots and detailed step-by-step instructions. You may also upload a video of the demo or a link to it. But makes sure it is user-friendly and explained simple enough to be understood by a layman.
+1. Log in using the provided credentials
 
-# Future Enhancements
-What are the possible steps that can be taken to improve this product? List out all possible ways that you have thought of to improve on this solution. Go through the 'Out of Scope' section in the Asana board of your challenge and you will find a lot of features that were dropped which can be included here.
+![](images/how-to-use/homepage.png)
+
+
+![](images/how-to-use/dashboard1.png)
+
+2. Enter your phone number with country code and click on subscribe/unsubscribe
+
+![](images/how-to-use/notification.png)
+
+3. View and filter gunshot occurrences on the google map
+
+![](images/how-to-use/map.png)
+
 
 ## Limitations
 Explain the limitations of this challenge. Why they occur and how they can be tackled to improve upon.
