@@ -92,7 +92,7 @@
         <button id="subscribe-button" class="btn btn-outline-success my-2 my-sm-0" type="button">
           Subscribe
         </button>
-        <button id="unsubscribe-button" class="btn btn-outline-danger my-2 my-sm-0" type="button">
+        <button id="unsubscribe-button" class="btn btn-outline-danger my-2 my-sm-0" type="button" style="float:right;">
           Unsubscribe
         </button>
         <div class="fixed-top p-3" style="z-index: 11">
@@ -131,21 +131,21 @@
   </div>
   <div class="map-container">
     <div>
-      <h2 class="py-2">
-        Filter dates to view gunshot in specific time period
+      <h2 class="py-2 description">
+        Filter dates to view gunshot occurances in specific time period
       </h2>
       <div id="range">
-        <input type="text" id="date-range" placeholder="click here" />
+        <input type="text" id="date-range" class="form-control" style="width: 50%;" placeholder="Choose date range" />
       </div>
       <div id="toggle-data" class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="toggle-switch" />
+        <input type="checkbox" class="form-check-input" id="toggle-switch" />
         <label class="custom-control-label" for="toggle-switch">Show Raw Gunshot Data</label>
       </div>
     </div>
     <br /><br />
     <div style="display: flex">
       <div id="map" style="flex: 3"></div>
-      <div class="audio-container" style="flex: 1; height: 400px">
+      <div class="audio-container" style="flex: 1; height: 400px" hidden>
         <h5>Raw Audio sources sorted in descending order of time.</h5>
         <div id="audio-list" style="overflow-y: scroll; height: 350px"></div>
       </div>
