@@ -71,7 +71,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse1">
-        <a href="#" class="navbar-brand">Gunshot Detection powered by ASU CIC</a>
+        <a href="#" class="navbar-brand">Gunshot Detection Dashboard</a>
         <form class="d-flex ms-auto">
           <button class="btn btn-outline-danger" type="button" onclick="doLogout()">
             Logout
@@ -81,19 +81,19 @@
     </div>
   </nav>
   <div class="description-container">
-    <h3 class="description">
-      Enter your phone number with country code to subscribe/unsubscribe to
-      gunshot event notifications
-    </h3>
+    <h2>
+      Subscribe/Unsubscribe to gunshot event notifications
+    </h2>
     <form class="form-inline form-container">
       <input id="subscribe-field" class="form-control mr-sm-2" type="input" placeholder="14802345663"
         aria-label="14802345663" />
       <div class="btn-margin">
-        <button id="subscribe-button" class="btn btn-outline-success my-2 my-sm-0" type="button">
-          Subscribe
-        </button>
-        <button id="unsubscribe-button" class="btn btn-outline-danger my-2 my-sm-0" type="button" style="float:right;">
+        <button id="unsubscribe-button" class="btn btn-outline-danger" type="button"
+          style="float:right; margin-left: 10px;">
           Unsubscribe
+        </button>
+        <button id="subscribe-button" class="btn btn-outline-success" type="button" style="float:right;">
+          Subscribe
         </button>
         <div class="fixed-top p-3" style="z-index: 11">
           <div id="gunshot-sub" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
@@ -131,8 +131,8 @@
   </div>
   <div class="map-container">
     <div>
-      <h2 class="py-2 description">
-        Filter dates to view gunshot occurances in specific time period
+      <h2>
+        Filter gunshot incidents for a time period
       </h2>
       <div id="range">
         <input type="text" id="date-range" class="form-control" style="width: 50%;" placeholder="Choose date range" />
