@@ -6,7 +6,6 @@ Phoenix City PD: Gunshot Detection (Work In Progress)
 | [Description](#description)         |     Learn more about the problem, implemented solution and challenges faced    | 
 | [Deployment Guide](#deployment)         |    How to install and deploy __phoenix-pd-gunshot-detection__ |
 | [How to Use](#how-to-use)       |     Instructions to use __phoenix-pd-gunshot-detection__   |
-| [Limitations](#limitations)       |     Limitations and next steps which can be taken   |
 | [Credits](#credits)      |     Meet the team behind this     |
 | [License](#license)      |     License details     |
 
@@ -47,7 +46,7 @@ Our project combines [Gunshot detection algorithm for Raspberry Pi](https://gith
 Refer to following documents for each deployment steps:
 1. [Gunshot detection algorithm installation on Raspberry Pis](./raspberry_pi/README.md)
 2. [AWS guide]()
-3. [Dashboard Website](./docs/rekognition.md)
+3. [Dashboard Website]()
 
 The guide should contain deployment steps for each service used with exact steps outlined. For example, if you are using S3 buckets then explain how to create a bucket, what should they name it as or what naming convention should be followed then explain about how to link that service with another services.
 
@@ -68,14 +67,6 @@ Videos will help others understand the steps better so make sure to include some
 3. View and filter gunshot occurrences on the google map
 
 ![](images/how-to-use/map.png)
-
-
-## Limitations
-Explain the limitations of this challenge. Why they occur and how they can be tackled to improve upon.
-For example:
- - Say you use a Lambda service to handle the processing part of your application. As Lambda comes with a max run-time of 15 minutes, the limitation of your application will be that it can not process requests that take more than 15 minutes to complete.
- - If you are using Amazon Rekognition to detect objects in an image, this service is particularly expensive if left running, so the limitation would be that the service should not run longer than lets say 8 hours per day. 
- - Say you are using the default DynamoDB provisioning configuration, then the number of parallel requests that can be made per second are restricted, which can affect scaling up of the application. 
 
 
 # Credits

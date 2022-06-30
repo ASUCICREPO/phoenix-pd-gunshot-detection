@@ -62,3 +62,8 @@ The **cronjob** scripts can be found at [startup-scripts](../startup-scripts/)
 4. Save and exit
 
 
+
+> **Known Issue:** 
+> 
+> If a Raspberry Pi is abruptly switched off, it can sometimes corrupt the running script **gunshot_detection.py**. To mitigate this issue, we keep a backup of this script in the **backups** folder. The gunshot [startup script](../startup-scripts/run_gunshot_detector.sh) verifies the checksum of **gunshot_detection.py** and **backups/gunshot_detection.py** before executing the gunshot detection python script. *Please ensure that both **gunshot_detection.py** and **backups/gunshot_detection.py** are always identical (with the same checksum)*. If both scripts are different, the [startup script](../startup-scripts/run_gunshot_detector.sh) will always execute the **backups/gunshot.py**.
+
