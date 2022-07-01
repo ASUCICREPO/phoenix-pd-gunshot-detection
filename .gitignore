@@ -2,6 +2,7 @@
 *.out
 *.log
 .DS_Store
+dryrun.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
