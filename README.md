@@ -6,6 +6,8 @@ Phoenix City PD: Gunshot Detection (Work In Progress)
 | [Description](#description)         |     Learn more about the problem, implemented solution and challenges faced    | 
 | [Deployment Guide](#deployment)         |    How to install and deploy __phoenix-pd-gunshot-detection__ |
 | [How to Use](#how-to-use)       |     Instructions to use __phoenix-pd-gunshot-detection__   |
+| [Lessons Learned](#lessons-learned)       |     Limitations, lessons learned and next steps which can be taken   |
+| [Bill Of Materials](#bill-of-materials)       |     Cost of deployment   |
 | [Credits](#credits)      |     Meet the team behind this     |
 | [License](#license)      |     License details     |
 
@@ -68,6 +70,12 @@ Videos will help others understand the steps better so make sure to include some
 
 ![](images/how-to-use/map.png)
 
+
+# Lessons Learned
+> To be updated
+
+# Bill Of Materials
+> To be updated
 
 # Credits
 
