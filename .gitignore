@@ -174,3 +174,6 @@ website/server/config.js
 website/node_modules
 website/package-lock.json
 website/package_copy.json
+
+# Report
+Gunshot Deployment Report.xlsx
