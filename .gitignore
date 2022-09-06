@@ -177,3 +177,7 @@ website/package_copy.json
 
 # Report
 Gunshot Deployment Report.xlsx
+
+# audio files
+**/gunshots/**
+**/non-gunshots/**
