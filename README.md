@@ -70,9 +70,63 @@ Videos will help others understand the steps better so make sure to include some
 
 ![](images/how-to-use/map.png)
 
+# About the setup
+
+## End device
+The device consists of the following components:
+
+1. Microphone
+2. Wi-Fi Hotspot using a SIM
+3. Power supply cord for Lightpoles
+4. Raspberry Pi for processing
+5. Casing to house the components
+6. Waterproofing gel to encase the microphone
+7. Rubber encasing to water proof the microphone
+
+## AWS Cloud Service
+
+1. DynamoDB as the datastore
+2. Lambda functions for collecting data, triangulation, pushing notifications to SNS
+3. SNS to send messages to officers about gunshots
+4. UI to display the gunshot history, enable subscribe/unsubscribe for notifications
+5. EC2 instance to host the UI
+
+# Algorithm
+There are third party paid solutions that detect gunshots but they have human intervention in the system where they verify the gun shot sound files recorded by the algorithm and then post approval the officers are notified about the gunshot. This process adds extra minutes to the verification workflow, our goal with the prototype is to eliminate the extra approval steps to cut the extra time. The extra time can come clutch for the officers to apprehend the shooter. 
+
+To enable this, we do the following:
+
+1. We install devices that listen continously and detect gunshots using a machine learning model. The devices are capable of listening to gunshots in a radius of ~100 feet, this can be improved greatly with the use better microphones which come at a higher cost or you may choose to build your own microphone array.
+
+2. White the gunshot detection model trained to pick up gunshots, there are cases where it picks up on similar sounds such as fireworks, car backfire, flat tires, rainfall, etc. To mitigate this limitation, we add a filter machine learning model, that is trained to pick up gunshots among other similar sounds. 
+
+3. If a gunshot is still detected after these two models, then we try to triangulate this gunshot using information from other end devices that might have picked up the sound at the same time range.
+
+4. We the send out the triangulated gunshot location to our server, which then sends a notification to all officers/ point of contacts that are subscribed to the gunshot detection system. After which the Police can decide on how to handle the situation. 
+
+## Machine Learning Model
+We employ the following techniques for preprocessing and extracting features from the audio files.
+
+ - Eliminating noise, Convoluted Fast Fourier Transformation
+ - Padding with silence to make it equal length
+ - Making the audio files Stereo channel by duplicating the wave file (if mono)
+ - Spectral Roll off
+ - Spectral Centroid
+ - Mel Frequency Cepstral Coefficients 
+ - Mel Spectogram Analysis
 
 # Lessons Learned
-> To be updated
+ - A good quality microphone is the crux of our application, we needed something small enough to fit inside the casing while also having high quality sound recording capabilities, omnidirectional, high range, and inexpensive. Such a microphone is hard to find in the market, a better solution is to build your own microphone array using bread boards and electret microphones. These arrays are highly customizable and can carry as many microphones to enhance hearing capabilities.
+
+ - Making a small, robust, weather proof, and inexpensive casing is very important as we want our end devices to fit around poles or high reaching structures easily and we should be able to hide them so that they are not spotted easily. They should be capable of handling high heat, rainfall, snowfall, birds, etc so the devices do not lose power/ fail randomly.
+
+ - Making the device heat resistant is crucial for places like Arizona, as devices overheat very easily. Painting the device white, using heat resistant semi conductor casings can be a few ways to employ this. Similarly, the devices would need to made rain and snow resistant according to the areas it is housed in.
+
+ - As these devices are installed on high reaching structures, it is very difficult to remove them from their spots and make changes. It is important to have a proper setup so we don't need to make these changes often.
+
+ - As these devices need to communicate with the cloud, we need access to the internet. We use hotspot devices equipped with a SIM for constant internet access, these hotspot need to be properly installed and turned on before the device is placed at their respective spots. We had to make sure we turn off the sleep functionality so they are functioning 24/7.
+
+ - A well trained set of machine learning models trained using the audio recorded by the devices so it can better detect the gunshots and identify non gunshots like mentioned previously. Using external datasets of gunshots and non gunshots doesn't give good performance on recorded audio files because of the differences of the equipment used to record the instances.
 
 # Bill Of Materials
 > To be updated
