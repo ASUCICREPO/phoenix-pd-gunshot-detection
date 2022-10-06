@@ -1,19 +1,19 @@
 const cors = require("cors");
-var url = require("url");
+//var url = require("url");
 var passport = require("passport");
-var fs = require("fs");
+//var fs = require("fs");
 var config = require("./server/config");
 
-var querystring = require("querystring");
+//var querystring = require("querystring");
 var path = require("path");
 var express = require("express");
 
-var dbURL = config.db_url;
-var db = require("mongoskin").db(dbURL);
-var mongoose = require("mongoose");
-mongoose.connect(dbURL, () => {
-  console.log("Mongo Connected");
-});
+// var dbURL = config.db_url;
+//var db = require("mongoskin").db(dbURL);
+// var mongoose = require("mongoose");
+// mongoose.connect(dbURL, () => {
+//   console.log("Mongo Connected");
+// });
 
 var app = express();
 
@@ -21,14 +21,7 @@ var secret = "test" + new Date().getTime().toString();
 var session = require("express-session");
 app.use(require("cookie-parser")(secret));
 var MongoStore = require("connect-mongo")(session);
-app.use(
-  session({
-    store: new MongoStore({
-      url: dbURL,
-      secret: secret,
-    }),
-  })
-);
+app.use(session({secret: secret}));
 app.use(passport.initialize());
 app.use(passport.session());
 

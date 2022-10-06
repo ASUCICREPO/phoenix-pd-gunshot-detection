@@ -15,4 +15,4 @@ require("greenlock-express")
     app: require("./http.js"),
     //, communityMember: true
   })
-  .listen(8080, 8443);
+  .listen(80,443);
