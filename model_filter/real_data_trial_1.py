@@ -1,4 +1,5 @@
 # %%
+# Imports
 !pip install openpyxl 
 import os
 import numpy as np
@@ -16,6 +17,7 @@ from tqdm import tqdm
 import warnings
 warnings.filterwarnings('ignore')
 
+# Read labeled data 
 # %%
 raw_gunshot = pd.read_csv('gunshot_data_csv.csv')
 raw_gunshot.head()

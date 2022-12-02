@@ -181,3 +181,5 @@ Gunshot Deployment Report.xlsx
 # audio files
 **/gunshots/**
 **/non-gunshots/**
+**/old_non-gunshots/**
+**/longer-test/**
